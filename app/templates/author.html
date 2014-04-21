@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block header %}
+Author info
+{% endblock %}
+{% block content %}
+
+<h3>Id: {{author.id}}</h3>
+<h3>Name: {{author.name}}</h3>
+<h3>Books: {{ author.books }}</h3>
+
+{% endblock %}

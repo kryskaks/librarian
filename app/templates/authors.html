@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block header %}
+Authors list
+{% endblock %}
+{% block content %}
+
+{% for author in authors %}  
+  <li><a href="{{ url_for('authors_list') }}/{{author.id}}">{{author.name}}</a></li>
+{% endfor %}
+
+<br>
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('authors_list') }}" method="get" class="form">
+      <dl>              	
+      	<input type=hidden value="{{ csrf_token }}">
+        {{ render_field(search_form.text, class="input text") }}
+        <dd><input type=submit value="Search Author">
+      </dl>
+</form>
+
+<br>
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('create_author') }}" method="post" class="form">
+      <dl>              	
+      	<input type=hidden value="{{ csrf_token }}">
+        {{ render_field(add_form.text, class="input text") }}
+        <dd><input type=submit value="Add Author">
+      </dl>
+</form>
+
+{% endblock %}
