@@ -5,6 +5,8 @@ from flask import *
 from app import app
 from config import DATABASE_PATH
 
+from app.models import *
+
 os.environ['PYTHONINSPECT'] = 'True'
 
 def connect_db():    

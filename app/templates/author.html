@@ -4,8 +4,21 @@ Author info
 {% endblock %}
 {% block content %}
 
-<h3>Id: {{author.id}}</h3>
-<h3>Name: {{author.name}}</h3>
-<h3>Books: {{ author.books }}</h3>
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('update_author', id=author.id) }}" method="post" class="form">
+      <dl>                
+        <input type=hidden value="{{ csrf_token }}">
+        <dt>Name:
+        {{ render_field(update_form.text, class="input text", value=author.name) }}
+        <dd><input type=submit value="Update">
+      </dl>
+</form>
+
+<dt>Books:
+{% for book in author.books %}
+  <li><a href="{{ url_for('books_list') }}/{{book.id}}">{{book.title}}</a></li>
+{% endfor %}
+
+
 
 {% endblock %}

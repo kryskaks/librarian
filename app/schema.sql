@@ -4,7 +4,7 @@ drop table if exists books_to_authors;
 
 create table books (
   id integer primary key autoincrement,
-  title text not null
+  title text not null  
 );
 
 create table authors (

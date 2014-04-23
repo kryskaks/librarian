@@ -5,7 +5,29 @@ Books list
 {% block content %}
 
 {% for book in books %}
-  <li>{{book.title}}</li>
+  <li><a href="{{ url_for('books_list') }}/{{book.id}}">{{book.title}}</a></li>
 {% endfor %}
+
+<br>
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('books_list') }}" method="get" class="form">
+      <dl>              	
+      	<input type=hidden value="{{ csrf_token }}">
+        {{ render_field(search_form.text, class="input text") }}
+        <dd><input type=submit value="Search Book">
+      </dl>
+</form>
+
+<br>
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('create_book') }}" method="post" class="form">
+      <dl>              	
+      	<input type=hidden value="{{ csrf_token }}">
+        {{ render_field(add_form.text, class="input text") }}
+        <dd><input type=submit value="Add Book">
+      </dl>
+</form>
 
 {% endblock %}

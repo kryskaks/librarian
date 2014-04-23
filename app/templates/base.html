@@ -9,6 +9,11 @@
       <body>
         <div id="header">{% block header %}{% endblock %}</div>        
         <div id="content">{% block content %}{% endblock %}</div>
-        <div id="footer">{% block footer %}{% endblock %}</div>
+        <div id="footer">
+            {% block footer %}
+                <br>
+                <a href="{{url_for('authors_list')}}">Authors</a><br>
+                <a href="{{url_for('books_list')}}">Books</a>
+            {% endblock %}</div>
       </body>
 </html>
