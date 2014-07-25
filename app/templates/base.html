@@ -1,19 +1,87 @@
 <html>
       <head>
-        <title>{% block title %}Librarian{% endblock %}</title>
+        <title>{% block title %}Librarian{% endblock %}
+        </title>
         {% block css %}
-        <link rel="stylesheet" href="/static/css/bootstrap.css" />        
+                        
+        <style>
+      body {
+        padding-top: 40px;
+        padding-left: 40px;                
+      }
+      input[type="text"], select{
+        width: 300px;
+        padding: 0px;
+        margin-bottom: 5px;
+        margin-top: 5px;        
+        display: inline-block;        
+      }
+      
+    </style>    
+    <link rel="stylesheet" href="/static/css/bootstrap.css"> 
+
         {% endblock %}
-        {% block script %}{% endblock %}
+        {% block script %}
+        <script src="/static/js/jquery.js"></script>
+
+        <script type="text/javascript">
+
+        $(document).ready(function(){
+          $('.form').submit(function(event){
+            validateForm(event);
+          });
+
+          $("[id=confirm]").click(function(event){            
+            if (confirm('Уверены, что хотите удалить?')) {
+              return;
+            }
+            else {              
+              event.preventDefault();              
+            }
+          });
+
+          function validateForm(event){
+            var target = $(event.target);           
+
+            target.find('.alert-warning').hide();
+
+            var formTextField = target.find('#text');
+            var byTitleField = target.find('#by_title');
+            var byAuthorField = target.find('#by_author');
+
+            if(formTextField.val() == ""){              
+              formTextField.after('<span class="alert alert-warning">Поле должно быть заполнено</span>');
+              
+              event.preventDefault();
+              return;            
+            }
+            
+            if(byTitleField.length) {            
+
+              if(!(byAuthorField.prop('checked') || byTitleField.prop('checked'))) {
+                formTextField.after('<span class="alert alert-warning">Укажите хотя бы один критерий поиска</span>');
+                
+                event.preventDefault();           
+              }
+            }
+
+          }
+
+        });
+
+        </script>
+
+        {% endblock %}
       </head>
       <body>
-        <div id="header">{% block header %}{% endblock %}</div>        
+        <div id="header" class="lead">{% block header %}{% endblock %}</div>
         <div id="content">{% block content %}{% endblock %}</div>
         <div id="footer">
             {% block footer %}
                 <br>
-                <a href="{{url_for('authors_list')}}">Authors</a><br>
-                <a href="{{url_for('books_list')}}">Books</a>
+                <a href="{{url_for('index')}}">Главная</a> |
+                <a href="{{url_for('authors_list')}}">Все авторы</a> |
+                <a href="{{url_for('books_list')}}">Все книги</a>
             {% endblock %}</div>
       </body>
 </html>

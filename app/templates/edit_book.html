@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block header %}
+Редактирование книги <strong>{{ book.title }}</strong>
+<link rel="stylesheet" href="/static/css/chosen.css">
+{% endblock %}
+{% block content %}
+
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('save_book', id=book.id) }}" method="post" class="form">                      
+        {{ update_book_form.csrf_token }}
+
+        Название:
+        {{ render_field(update_book_form.text, value=book.title, class="input text form-control input-sm") }}
+        
+        Авторы:
+        {% if book.authorships %}
+            {% for authorship in book.authorships %}
+            <li><a href="{{ url_for('get_author', id = authorship.author.id)}}">{{authorship.author.name}}</a>
+              <a href="{{url_for('delete_authorship', id = authorship.id)}}" id="confirm">Удалить</a></li>
+            {% endfor %}
+        {% else %}
+            Не указан
+            <br>
+        {% endif %}
+
+        Добавить автора:
+        {{ render_field(update_book_form.authors, class="chosen-select", multiple="") }}
+        <br>
+        <input type=submit value="Сохранить" class="btn btn-default btn-sm">
+        <a href="{{ url_for('get_book', id=book.id) }}"><input type=button onclick="addItem(); return false;" value="Отмена" class="btn btn-default btn-sm"></a>
+</form>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+    <script src="/static/js/chosen.jquery.js" type="text/javascript"></script>   
+    <script type="text/javascript">
+    
+    $('.chosen-select').attr('data-placeholder', 'Выберите автора')
+    $('.chosen-select').chosen({no_results_text:'Автор <b><span></span></b> не найден, добавьте!'})
+    
+    </script>
+
+{% endblock %}

@@ -1,4 +1,4 @@
 from app import app
-from app.views import books_list
+from app.views import index
 
-app.run(debug=True)
+app.run()

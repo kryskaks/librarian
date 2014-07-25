@@ -1,32 +1,18 @@
 {% extends "base.html" %}
 {% block header %}
-Book info
+Подробнее о книге <strong>{{book.title}}</strong>
 {% endblock %}
 {% block content %}
 
-{% from "forms/macros.html" import render_field %}
-<form action="{{ url_for('update_book', id=book.id) }}" method="post" class="form">
-      <dl>                
-        <input type=hidden value="{{ csrf_token }}">
-        <dt>Title:
-        {{ render_field(update_form.text, class="input text", value=book.title) }}        
-       
-      </dl>
+<p3>Название: {{book.title}}</p3>
 
+<br>
+Авторы:
+{% for authorship in book.authorships %}
+  <li><a href="{{ url_for('get_author', id=authorship.author.id)}}">{{authorship.author.name}}</a></li>
+{% endfor %}
 
-        <dt>Author(s):
-        {% for author in book.authors %}
-          <li><a href="{{ url_for('authors_list') }}/{{author.id}}">{{author.name}}</a></li>
-        {% endfor %}
+<br>
+<a href="{{ url_for('edit_book', id=book.id) }}">Перейти к редактированию книги</a>
 
-        {{ render_field(update_form.new, class="input text") }}
-         <dd><input type=submit value="Update">
-
-       
-</form>
-
- <dt>Authorship(s):
-        {% for authorship in book.authorships %}
-          <li><a href="{{ url_for('authors_list') }}/{{authorship.author.id}}">{{authorship.author.name}}</a></li>
-        {% endfor %}
 {% endblock %}

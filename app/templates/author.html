@@ -1,24 +1,21 @@
 {% extends "base.html" %}
 {% block header %}
-Author info
+Информация об авторе <strong>{{author.name}}</strong>
 {% endblock %}
 {% block content %}
 
-{% from "forms/macros.html" import render_field %}
-<form action="{{ url_for('update_author', id=author.id) }}" method="post" class="form">
-      <dl>                
-        <input type=hidden value="{{ csrf_token }}">
-        <dt>Name:
-        {{ render_field(update_form.text, class="input text", value=author.name) }}
-        <dd><input type=submit value="Update">
-      </dl>
-</form>
+<p3>Имя: {{author.name}}</p3>
 
-<dt>Books:
-{% for book in author.books %}
-  <li><a href="{{ url_for('books_list') }}/{{book.id}}">{{book.title}}</a></li>
-{% endfor %}
+<a href="{{ url_for('edit_author', id=author.id) }}">Редактировать</a>
 
-
+<br>
+<p2>Книги:</p2>
+{% if author.authorships%}
+	{% for authorship in author.authorships %}
+	  <li><a href="{{ url_for('get_book', id=authorship.book.id)}}">{{authorship.book.title}}</a></li>
+	{% endfor %}
+{% else %}
+	Не указаны
+{% endif %}
 
 {% endblock %}

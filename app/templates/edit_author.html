@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block header %}
+Редактировать информацию об авторе <strong>{{author.name}}</strong>
+{% endblock %}
+{% block content %}
+
+{% from "forms/macros.html" import render_field %}
+<form action="{{ url_for('update_author', id=author.id) }}" method="post" class="form">
+      <dl>                
+        {{ update_form.csrf_token }}
+        <dt>Имя:
+        {{ render_field(update_form.text, class="input text form-control input-sm", value=author.name) }} 
+        <dd><input type=submit value="Сохранить" class="btn btn-default btn-sm">              	
+        <a href="{{ url_for('get_author', id=author.id) }}"><input type=button onclick="addItem(); return false;" value="Отмена" class="btn btn-default btn-sm"></a>
+      </dl>
+</form>
+
+{% endblock %}
